@@ -1,6 +1,6 @@
 ---
-title: "Redlining"
-author: "Victoria Fisher"
+title: "Redlining code for PLOSOne Manuscript (forthcoming)"
+authors: "Victoria Fisher & Nicole Alkhouri, Isaacson Michel, Caitlyn O'Connor, Nadia N. Abuelezam"
 date: "2024-08-15"
 output: html_document
 ---

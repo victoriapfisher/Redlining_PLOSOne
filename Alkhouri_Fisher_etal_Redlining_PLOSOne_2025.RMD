@@ -61,8 +61,6 @@ p_load(tidyverse,
        naniar)
 
 
-```
-
 #Loading datasets
 
 ```{r}
@@ -313,41 +311,41 @@ table(boston_glm_na_df$ZCTA)
 
 ```
 
-#non-hierarchical
+## For our research question and data structure, a non-heirarchical modeling with continuous time as a fixed effect proved best.
 
 ```{r}
-colnames(boston_glm_na_df)
+# exploring significance of covariates
 
-glm1 <- glm(log(incidence_rate_10k) ~ time_0 + A75UP_P, boston_glm_na_df, family = gaussian)
-glm1 %>% tbl_regression(exponentiate = TRUE)
-AIC(glm1) #2516
-qqnorm(residuals(glm1)) #best qqplot
-qqline(residuals(glm1))
+full_model <- glm(log(incidence_rate_10k) ~ HRI2020 + FB_P + stnd_median_hh_value + non_white_pop_P + OWN_P + time_0 + A75UP_P, 
+                  data = boston_glm_na_df, family = gaussian)
 
-glm2 <- glm(log(incidence_rate_10k) ~ HRI2020 + time_0 + A75UP_P, boston_glm_na_df, family = gaussian)
-glm2 %>% tbl_regression(exponentiate = TRUE)
-AIC(glm2) #2517
+# stepwise selection
 
-glm3 <- glm(log(incidence_rate_10k) ~ HRI2020 + stnd_median_hh_value + time_0 + A75UP_P, boston_glm_na_df, family = gaussian)
-glm3 %>% tbl_regression(exponentiate = TRUE)
-AIC(glm3) #2518
+stepwise_model <- step(full_model, direction = "backward")
+summary(stepwise_model) #all covariates except redlining indicator are significantly associated with COVID-19 incidence
 
-#Main model
+# Unadjusted Model
 
-glm4 <- glm(log(incidence_rate_10k) ~ HRI2020 + FB_P + stnd_median_hh_value + non_white_pop_P + OWN_P + time_0 + A75UP_P, boston_glm_na_df, family = gaussian)
-glm4 %>% tbl_regression(exponentiate = TRUE)
-AIC(glm4) #2494 lower than undadjusted
-qqnorm(residuals(glm4)) #best qqplot
-qqline(residuals(glm4))
-plot(glm4)
+unadj_model <- glm(log(incidence_rate_10k) ~ 1, boston_glm_na_df, family = gaussian)
+summary(unadj_model)
+AIC(unadj_model) #2573
+qqnorm(residuals(unadj_model))
+qqline(residuals(unadj_model))
 
-#Expanded non-white category 
-glm5 <- glm(log(incidence_rate_10k) ~ HRI2020 + FB_P + stnd_median_hh_value + NHBLK_P + HISP_P + ASIAN_P + OWN_P + time_0 + A75UP_P, boston_glm_na_df, family = gaussian)
-glm5 %>% tbl_regression(exponentiate = TRUE)
-AIC(glm5) #2498.151 higher than composite variable
-qqnorm(residuals(glm5)) #best qqplot
-qqline(residuals(glm5))
-plot(glm5)
+# Main model
+
+main_model <- glm(log(incidence_rate_10k) ~ HRI2020 + FB_P + stnd_median_hh_value + non_white_pop_P + OWN_P + time_0 + A75UP_P, boston_glm_na_df, family = gaussian)
+main_model %>% tbl_regression(exponentiate = TRUE)
+AIC(main_model) #2494
+qqline(residuals(main_model))
+plot(main_model)
+
+# Expanded non-white category (not included in manuscript)
+expanded_model <- glm(log(incidence_rate_10k) ~ HRI2020 + FB_P + stnd_median_hh_value + NHBLK_P + HISP_P + ASIAN_P + OWN_P + time_0 + A75UP_P, boston_glm_na_df, family = gaussian)
+expanded_model %>% tbl_regression(exponentiate = TRUE)
+AIC(expanded_model) #2498.2
+qqline(residuals(expanded_model))
+plot(expanded_model)
 
 
 ```

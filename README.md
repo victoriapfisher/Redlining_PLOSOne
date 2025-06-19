@@ -1,5 +1,4 @@
-Code and data provided here is for the analysis in "The impact of historical redlining policies on community composition and the COVID-19 pandemic in Boston" 
-by Nicole Alkhouri & Victoria Fisher (co-first authors, listed alphabetically), Isaacson Michel, Caitlin O'Connor, and Nadia N. Abuelezam for PLOSOne (forthcoming, 2025).
+Code and data provided here is for the analysis in "Fisher V, Alkhouri N, Michel I, O’Connor C, Abuelezam NN. The impact of historical redlining policies on community composition and the COVID-19 pandemic in Boston. PLOS One. 20(6): e0324020. https://doi.org/10.1371/journal.pone.0324020" 
 
 Corresponding author: Nadia N. Abuelezam, abueleza@msu.edu.
 
